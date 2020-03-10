@@ -10,8 +10,8 @@ using namespace std;
 struct student{
 	//Define struct student with four member (name ,id , gender, gpa);
 	string name;
-	 int id;
-	string gender;
+	int id;
+	char gender;
 	double gpa;
 };
 
@@ -60,9 +60,12 @@ int main(){
 	
 	while(getline(student_file,textline)){
 		student s; 
-		string n,g,i,d;
+		char n[100];
+		char g;
+		int i;
+		double d;
 		//Assign value to the members of struct s;
-		int loc=textline.find_first_of(",",0);
+		/*int loc=textline.find_first_of(",",0);
 		s.name=textline.substr(0,loc);
 		string w=textline.substr(loc+1,4);
 		s.id=atoi(w.c_str());
@@ -70,6 +73,12 @@ int main(){
 		string p=textline.substr(loc+8,4);
 		s.gpa=atof(p.c_str());
 	
+		*/
+		char format[]="%[^,],%d,%c,%lf";
+		sscanf(textline.c_str(),format,n,&i,&g,&d);
+		
+		s={n,i,g,d};
+		
 		
 		allstudents.push_back(s); 		
 	}
