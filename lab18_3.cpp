@@ -9,6 +9,10 @@ using namespace std;
 
 struct student{
 	//Define struct student with four member (name ,id , gender, gpa);
+	string name;
+	 int id;
+	string gender;
+	double gpa;
 };
 
 struct course{
@@ -18,7 +22,7 @@ struct course{
 	vector<student *> student_list;
 };
 
-student * findstudent(vector<student> allstudents,int key){ //Correct this line
+student * findstudent(vector<student> &allstudents,int key){ //Correct this line
 	for(unsigned int i = 0; i < allstudents.size(); i++){
 		if(allstudents[i].id  == key) return &allstudents[i];
 	}
@@ -36,7 +40,7 @@ void printreport(vector<course> allcourses){
 		cout << "\n\nStudents:\t";
 		for(unsigned int j = 0; j < allcourses[i].student_list.size();j++){
 			if(j != 0) cout << "\t\t";
-			cout << setw(15) << left << allcourses[i].student_list[j]->name << "\t";
+			cout << setw(20) << left << allcourses[i].student_list[j]->name << "\t\t";
 			cout << allcourses[i].student_list[j]->id << "\t";
 			cout << allcourses[i].student_list[j]->gender << "\t";
 			cout << allcourses[i].student_list[j]->gpa << "\n";
@@ -56,13 +60,21 @@ int main(){
 	
 	while(getline(student_file,textline)){
 		student s; 
-	
+		string n,g,i,d;
 		//Assign value to the members of struct s;
+		int loc=textline.find_first_of(",",0);
+		s.name=textline.substr(0,loc);
+		string w=textline.substr(loc+1,4);
+		s.id=atoi(w.c_str());
+		s.gender=textline.substr(loc+6,1);
+		string p=textline.substr(loc+8,4);
+		s.gpa=atof(p.c_str());
 	
+		
 		allstudents.push_back(s); 		
 	}
 	
-	int state = 1;
+	int state = 1,m=0;
 	while(getline(course_file,textline)){
 		if(state == 1){
 			course c;
@@ -77,13 +89,17 @@ int main(){
 				state = 3;
 			}else{
 				//Append lecture_list;
+				allcourses[m].lecture_list.push_back(textline);
+				
 			}			
 		}else{
 			if(textline == "---------------------------------------"){
-				state = 1;
+				state = 1;m++;
 			}else{
-				student *p = findstudent(allstudents,atof(textline.c_str()));
+				student *p = findstudent(allstudents,atoi(textline.c_str()));
 				//Append student_list;
+				
+				allcourses[m].student_list.push_back(p);
 			}
 		}
 	}
