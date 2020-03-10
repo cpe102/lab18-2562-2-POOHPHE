@@ -18,7 +18,7 @@ int main(){
 	return 0;
 }
 double overlap(Rect r1,Rect r2){
-	double wid,hi,area;
+	/*double wid,hi,area;
 	if(r1.x<r2.x){
 		
 			wid= r1.x+r1.w-r2.x;
@@ -58,9 +58,16 @@ double overlap(Rect r1,Rect r2){
 			}
 		}
 	}
-
+*/
 	
 	//cout<<wid<<" "<<hi<<endl;
+	double wid,hi,area,widr,widl,hu,hd;
+	widr=max(r1.x,r2.x);
+	widl=min(r1.x+r1.w,r2.x+r2.w);
+	hu=max(r1.y-r1.h,r2.y-r2.h);
+	hd=min(r1.y,r2.y);
+	wid=widl-widr;
+	hi=hd-hu;
 	
 	if(wid<0){
 		wid=0;
@@ -69,5 +76,6 @@ double overlap(Rect r1,Rect r2){
 		hi=0;
 	}
 	area=wid*hi;
+	
 	return area;
 }
